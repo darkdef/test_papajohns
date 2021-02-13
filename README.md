@@ -26,7 +26,7 @@ php yii migrate up
   'workHoursPerDay' => 8,
 
 
-## Description of the test task in the file `pj.docx`
+## Description of the test task in the file [pj.docx](pj.docx)
 
 ```
 http://yousitename.com/
