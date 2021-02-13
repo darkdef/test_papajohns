@@ -1,0 +1,705 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Driver API",
+        "description": "For auth you may use token=`100-token` (without quotes)",
+        "version": "0.1"
+    },
+    "paths": {
+        "/driver": {
+            "get": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "List all drivers",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of drivers",
+                        "headers": {
+                            "X-Pagination-Current-Page": {
+                                "description": "Current page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Page-Count": {
+                                "description": "Count of pages",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Per-Page": {
+                                "description": "Count elements of page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Total-Count": {
+                                "description": "Total count of elements",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/driver"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Update one driver",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/driverUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated driver info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/driver"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Create driver",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/driverCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Created driver info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/driver"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/driver/{id}": {
+            "get": {
+                "tags": [
+                    "Drivers"
+                ],
+                "summary": "Get one driver info",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of driver to return",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One driver info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/driver"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/driver/transit": {
+            "get": {
+                "tags": [
+                    "Transit"
+                ],
+                "summary": "Transit time for all drivers",
+                "description": "In external API enabled cities: `Краснодар`, `Казань`, `Москва`",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "City from",
+                        "required": true
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "City to",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get transit time for all drivers",
+                        "headers": {
+                            "X-Pagination-Current-Page": {
+                                "description": "Current page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Page-Count": {
+                                "description": "Count of pages",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Per-Page": {
+                                "description": "Count elements of page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Total-Count": {
+                                "description": "Total count of elements",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/driverTransit"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "City/driver not found"
+                    },
+                    "500": {
+                        "description": "City API not works"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/driver/transit/{id}": {
+            "get": {
+                "tags": [
+                    "Transit"
+                ],
+                "summary": "Transit time for one driver",
+                "description": "In external API enabled cities: `Краснодар`, `Казань`, `Москва`",
+                "operationId": "app\\controllers\\DriverController::actionTransit",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of driver",
+                        "required": true
+                    },
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "description": "City from",
+                        "required": true
+                    },
+                    {
+                        "name": "to",
+                        "in": "query",
+                        "description": "City to",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transit time for one driver",
+                        "headers": {
+                            "X-Pagination-Current-Page": {
+                                "description": "Current page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Page-Count": {
+                                "description": "Count of pages",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Per-Page": {
+                                "description": "Count elements of page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Total-Count": {
+                                "description": "Total count of elements",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/driverTransit"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Missing required parameters"
+                    },
+                    "404": {
+                        "description": "City/driver not found"
+                    },
+                    "500": {
+                        "description": "City API not works"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/model": {
+            "get": {
+                "tags": [
+                    "Models of bus"
+                ],
+                "summary": "List of bus models",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of bus models",
+                        "headers": {
+                            "X-Pagination-Current-Page": {
+                                "description": "Current page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Page-Count": {
+                                "description": "Count of pages",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Per-Page": {
+                                "description": "Count elements of page",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            },
+                            "X-Pagination-Total-Count": {
+                                "description": "Total count of elements",
+                                "schema": {
+                                    "type": "int"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/model"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Models of bus"
+                ],
+                "summary": "Update one bus model",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/model"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated bus model info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/model"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Models of bus"
+                ],
+                "summary": "Create one bus model",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/modelCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Created bus model info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/model"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        },
+        "/model/{id}": {
+            "get": {
+                "tags": [
+                    "Models of bus"
+                ],
+                "summary": "One bus model info",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of bus model to return",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "One bus model info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/model"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    },
+                    {
+                        "tokenAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "driver": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "description": "Date in format YYYY-MM-DD",
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer"
+                    },
+                    "models": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/model"
+                        }
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "John Ivanov",
+                    "birth_date": "1980-09-02",
+                    "age": 40,
+                    "models": [
+                        {
+                            "id": 1,
+                            "name": "Modelname1",
+                            "speed": 60
+                        },
+                        {
+                            "id": 2,
+                            "name": "Modelname2",
+                            "speed": 48
+                        }
+                    ]
+                }
+            },
+            "driverUpdate": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "description": "Date in format YYYY-MM-DD",
+                        "type": "string"
+                    },
+                    "models": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "John Ivanov",
+                    "birth_date": "1980-09-02",
+                    "models": [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            },
+            "driverCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "description": "Date in format YYYY-MM-DD",
+                        "type": "string"
+                    },
+                    "models": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "name": "John Ivanov",
+                    "birth_date": "1980-09-02",
+                    "models": [
+                        1,
+                        2,
+                        3
+                    ]
+                }
+            },
+            "driverTransit": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "description": "Date in format YYYY-MM-DD",
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer"
+                    },
+                    "travel_time": {
+                        "description": "travel time in days",
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "John Ivanov",
+                    "birth_date": "1980-09-02",
+                    "age": 40,
+                    "travel_time": 2
+                }
+            },
+            "model": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "speed": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "name": "Modelname",
+                    "speed": 60
+                }
+            },
+            "modelCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "speed": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "name": "Modelname",
+                    "speed": 60
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "scheme": "bearer"
+            },
+            "tokenAuth": {
+                "type": "apiKey",
+                "name": "token",
+                "in": "query",
+                "scheme": "token"
+            }
+        }
+    }
+}
