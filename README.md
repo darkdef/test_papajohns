@@ -19,6 +19,14 @@ php yii migrate up
 ## General usage
 
 * Read the docs on API - open indexpage this site in your browser, for example
+* Configuring parameters in file `config/params.php`
+  
+  'pageSize' => 10
+  
+  'workHoursPerDay' => 8,
+
+
+## Description of the test task in the file `pj.docx`
 
 ```
 http://yousitename.com/
